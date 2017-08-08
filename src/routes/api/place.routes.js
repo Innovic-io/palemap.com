@@ -1,9 +1,9 @@
 const router = require('express').Router()
 
-const queryBuilder = require('../services/query-builder.service')
-const cacheService = require('../services/cache.service')
-const googleService = require('../services/google.service')
-const config = require('../config/app.config')
+const queryBuilder = require('../../services/query-builder.service')
+const cacheService = require('../../services/cache.service')
+const googleService = require('../../services/google.service')
+const config = require('../../config/app.config')
 
 const path = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`
 

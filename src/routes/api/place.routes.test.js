@@ -1,6 +1,6 @@
 const request = require('supertest')
 
-const app = require('../app')
+const app = require('../../app')
 
 describe('placeRoutes', () => {
   test('Testing /api/place/search', (done) => {

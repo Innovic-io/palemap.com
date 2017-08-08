@@ -9,7 +9,7 @@
   "scripts": {
     "start": "nodemon ./src/app.js",
     "lint": "eslint ./src/*/**.js --fix",
-    "test": "npm run lint && jest"
+    "test": "npm run lint && NODE_ENV=test jest --forceExit"
   },
   "jest": {
     "collectCoverage": true,
@@ -22,7 +22,8 @@
     "request": "^2.81.0",
     "object-hash": "^1.1.8",
     "google-place-types": "^1.0.1",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "hbs": "^4.0.1"
   },
   "devDependencies": {
     "eslint": "^4.3.0",

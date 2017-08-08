@@ -6,8 +6,8 @@ describe('googleService', () => {
 
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=43.8118946,18.5711013&radius=3000&type=school&key=AIzaSyB_SkJda2qonoJg10ttnfmunOwDgZweEcc'
 
-    return googleService.getPlaces(url).then(urlBody => {
-      expect(urlBody).toBe(urlBody)
+    return googleService.getPlaces(url).then(response => {
+      expect(response).toBeDefined()
     })
   })
 
@@ -16,8 +16,8 @@ describe('googleService', () => {
 
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=43.8118946,18.5711013&radius=3000&type=casino&key=AIzaSyB_SkJda2qonoJg10ttnfmunOwDgZweEcc'
 
-    return googleService.getPlaces(url).then(urlBody => {
-      expect(urlBody).toEqual([])
+    return googleService.getPlaces(url).then(response => {
+      expect(response).toEqual([])
     })
   })
 })
