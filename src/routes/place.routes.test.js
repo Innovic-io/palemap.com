@@ -12,7 +12,7 @@ describe('placeRoutes', () => {
 
   test('Testing /api/place/list', (done) => {
     request(app).get('/api/place/list/').then((response) => {
-      expect(response.statusCode).toBe(404)
+      expect(response.statusCode).toBe(200)
       done()
     })
   })
