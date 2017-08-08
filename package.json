@@ -34,6 +34,6 @@
     "jest": "^20.0.4",
     "node-fetch": "^1.7.1",
     "supertest": "^3.0.0",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.11.0"
   }
 }

@@ -20,6 +20,6 @@ app.use(function (err, req, res, next) {
   return res.status(500).json(error[500])
 })
 
-app.listen(PRODUCTION_PORT);
+app.listen(3000);
 
 module.exports = app
