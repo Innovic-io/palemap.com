@@ -1,1 +1,2 @@
 [![Build Status](https://travis-ci.org/Innovic-io/jahorina-ski-hike.svg?branch=master)](https://travis-ci.org/Innovic-io/jahorina-ski-hike)
+[![Coverage Status](https://coveralls.io/repos/github/Innovic-io/jahorina-ski-hike/badge.svg?branch=master)](https://coveralls.io/github/Innovic-io/jahorina-ski-hike?branch=master)
