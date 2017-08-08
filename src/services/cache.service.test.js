@@ -22,4 +22,4 @@ describe('cacheService', () => {
     cacheService.delete(key)
     expect(cacheService.check(key)).toBe(false)
   })
-});
+})

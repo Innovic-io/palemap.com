@@ -48,5 +48,5 @@ exports.set = function (hashValues, result) {
 exports.delete = function (hashValue) {
   const hash = objectHash(hashValue)
 
-  return hashes.delete(hash);
+  return hashes.delete(hash)
 }
