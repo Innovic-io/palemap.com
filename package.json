@@ -21,7 +21,8 @@
     "body-parser": "^1.17.2",
     "request": "^2.81.0",
     "object-hash": "^1.1.8",
-    "google-place-types": "^1.0.1"
+    "google-place-types": "^1.0.1",
+    "dotenv": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^4.3.0",
@@ -33,6 +34,6 @@
     "jest": "^20.0.4",
     "node-fetch": "^1.7.1",
     "supertest": "^3.0.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
   }
 }

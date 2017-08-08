@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require('dotenv').config()
 
 const route = require('./routes/place.routes');
 const error = require('./config/error.config')
@@ -19,6 +20,6 @@ app.use(function (err, req, res, next) {
   return res.status(500).json(error[500])
 })
 
-app.listen(3000);
+app.listen(PRODUCTION_PORT);
 
 module.exports = app
