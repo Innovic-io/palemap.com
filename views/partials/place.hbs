@@ -1,0 +1,14 @@
+<br>
+<br>
+<div class="ui middle aligned divided list">
+  {{#if place}}
+  {{#each place}}
+    <div class="item">
+      <img class="ui avatar image" src="{{this.icon}}">
+      <div class="content">
+        <a class="header">{{this.name}}</a>
+      </div>
+    </div>
+  {{/each}}
+  {{/if}}
+</div>

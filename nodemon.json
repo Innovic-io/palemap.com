@@ -1,0 +1,5 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.js"],
+  "ext": "js json css hbs"
+}
