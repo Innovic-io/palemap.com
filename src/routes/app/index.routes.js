@@ -24,4 +24,6 @@ router.get('/search', (req, res) => {
 
 })
 
+router.get('/place ')
+
 module.exports = router
