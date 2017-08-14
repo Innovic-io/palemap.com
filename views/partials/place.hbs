@@ -1,14 +1,82 @@
-<br>
-<br>
-<div class="ui middle aligned divided list">
-  {{#if place}}
-  {{#each place}}
-    <div class="item">
-      <img class="ui avatar image" src="{{this.icon}}">
-      <div class="content">
-        <a class="header" href="">{{this.name}}</a>
+{{#if placeDetails}}
+<style>
+    body {
+      padding-top: 100px;
+    }
+</style>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.ui.star.rating').rating('disable');
+    $('.ui.embed').embed();
+  });
+</script>
+<div class="ui container">
+  <div class="ui segments">
+    <div class="ui segment">
+      <div class="ui items">
+        <div class="item">
+          <div class="image">
+              <img src="{{placePhoto}}">
+          </div>
+          <div class="content">
+            <a class="header">{{placeDetails.name}}</a>
+            <div class="meta">
+              <span>Address</span>
+            </div>
+            <div class="description">
+              <div class="ui list">
+                {{#if placeDetails.formatted_address}}
+                  <div class="item">
+                    <i class="marker icon"></i>
+                    <div class="content">
+                      {{placeDetails.formatted_address}}
+                    </div>
+                  </div>
+                {{/if}}
+                {{#if placeDetails.international_phone_number}}
+                  <div class="item">
+                    <i class="call icon"></i>
+                    <div class="content">
+                      {{placeDetails.international_phone_number}}
+                    </div>
+                  </div>
+                {{/if}}
+                {{#if placeDetails.website}}
+                  <div class="item">
+                    <i class="linkify icon"></i>
+                    <div class="content">
+                      <a href="{{placeDetails.website}}">{{placeDetails.website}}</a>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="meta">
+              <span>Rates</span>
+            </div>
+            <div class="description">
+              {{#each placeDetails.reviews}}
+                <div class="ui list">
+                  <div class="item">
+                    <img class="ui avatar image" src="{{this.profile_photo_url}}">
+                    <div class="content">
+                      <a class="header">{{this.author_name}}</a>
+                      <div class="description">
+                        <div class="ui star rating" data-max-rating="5" data-rating="{{this.rating}}"></div>
+                        <p>{{this.text}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui embed" data-url="{{placeMap}}" data-placeholder="" data-icon="right circle arrow">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  {{/each}}
-  {{/if}}
+  </div>
 </div>
+{{/if}}

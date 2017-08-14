@@ -15,7 +15,7 @@ exports.getPlaces = function (url) {
 
       const place = JSON.parse(body)
 
-      return resolve(place.results)
+      return resolve(place)
     })
   })
 }
