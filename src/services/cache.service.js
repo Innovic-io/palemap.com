@@ -33,8 +33,8 @@ exports.get = function (hashValue) {
  * @param result
  * @returns {Map.<K, V>}
  */
-exports.set = function (hashValues, result) {
-  const hash = objectHash(hashValues)
+exports.set = function (hashValue, result) {
+  const hash = objectHash(hashValue)
 
   return hashes.set(hash, result)
 }

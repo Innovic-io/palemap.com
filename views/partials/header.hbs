@@ -1,26 +1,5 @@
-<div class="ui fixed menu">
-  <div class="ui container">
-    <a href="/" class="header item">
-      <img class="logo" src="assets/img/logo.png">
-    </a>
-    <a href="#" class="item">{{city.name}}</a>
-    <div class="ui simple dropdown item">
-      Categories<i class="dropdown icon"></i>
-      <div class="menu">
-        {{#each city.categories}}
-          <a class="item" href="search?location={{../city.location}}&radius={{../city.radius}}&type={{this}}">{{this}}</a>
-        {{/each}}
-      </div>
-    </div>
-    {{#if places}}
-    <div class="ui simple dropdown item">
-      Places<i class="dropdown icon"></i>
-      <div class="menu">
-        {{#each places}}
-          <a class="item" href="place?placeid={{this.place_id}}">{{this.name}}</a>
-        {{/each}}
-      </div>
-    </div>
-    {{/if}}
-  </div>
+<div class="ui blue inverted massive fixed menu">
+  <a href="/" class="header item">
+    <img class="logo" src="assets/img/logo.png">
+  </a>
 </div>

@@ -1,0 +1,38 @@
+<style>
+  body {
+    background: linear-gradient(rgba(33, 133, 208, 0.8), rgba(33, 133, 208, 0.8)), url('assets/img/abackground.jpg');
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  body > .grid {
+    height: 100%;
+  }
+  .image {
+    margin-top: -100px;
+  }
+  .column {
+    max-width: 450px;
+  }
+</style>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h1 class="ui inverted image header">
+      <div class="content">
+        <img src="assets/img/logo.png" alt="" width="256" height="256">
+      </div>
+    </h1>
+    <br>
+    <div class="ui fluid selection dropdown">
+      <i class="dropdown icon"></i>
+      <span class="default text">Select place type:</span>
+      <div class="menu">
+        {{#each city.categories}}
+          <a class="item" href="search?location={{../city.location}}&radius={{../city.radius}}&type={{this}}">{{this}}</a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>

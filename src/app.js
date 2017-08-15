@@ -19,10 +19,10 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-hbs.registerPartials(__dirname + '/../views/partials')
+hbs.registerPartials(path.join(__dirname, '/../views/partials'))
 
 app.set('view engine', 'hbs')
-app.set('views', path.normalize(__dirname + '/../views'))
+app.set('views', path.normalize(path.join(__dirname, '/../views')))
 
 app.use('/assets', express.static('./public'))
 
@@ -30,9 +30,9 @@ app.use('/api/place', placeRoute)
 
 app.use('/', indexRoute)
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   return res.status(404).json(error[404])
-});
+})
 
 app.use(function (err, req, res, next) {
   console.log(err)
