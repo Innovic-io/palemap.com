@@ -1,5 +1,34 @@
+<script>
+  $(document).ready(function () {
+    var content = [
+      {{#each city.categories}}
+        { title: '{{this}}' },
+      {{/each}}
+    ];
+
+    $('.ui.right.aligned.search.item')
+      .search({
+        apiSettings: {
+          url: '/search?location={{city.location}}&radius={{city.radius}}&type={query}'
+        },
+        source: content,
+        searchFields   : ['title']
+      });
+  });
+</script>
 <div class="ui blue inverted massive fixed menu">
   <a href="/" class="header item">
     <img class="logo" src="assets/img/logo.png">
   </a>
+  <a class="active item">Search results for {{placeType}}</a>
+  <div class="right menu">
+    <div class="ui right aligned search item">
+      <div class="ui icon input">
+        <input class="prompt" type="text" placeholder="Search new places...">
+        <i class="search link icon"></i>
+      </div>
+      <div class="results"></div>
+    </div>
+  </div>
+</div>
 </div>

@@ -1,5 +1,6 @@
 module.exports = {
   key: 'AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8',
+  numOfBackgrounds: 8,
   // key: 'AIzaSyB_SkJda2qonoJg10ttnfmunOwDgZweEcc',
   city: {
     name: 'Pale',
