@@ -25,10 +25,10 @@
     }, callback);
   }
 
-  function callback(results, status) {
+  function callback(places, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < results.length; i++) {
-        createMarker(results[i]);
+      for (var i = 0; i < places.length; i++) {
+        createMarker(places[i]);
       }
     }
   }
@@ -41,13 +41,55 @@
     });
 
     google.maps.event.addListener(marker, 'click', function() {
-      infowindow.setContent(place.name);
-      infowindow.open(map, this);
+      $('.ui.tiny.modal').modal('show');
+      $('.modal-title').text(`More details about ${place.name}`);
+      $('#modal-image').attr('src', place.icon);
+      $('.modal-subtitle').text(place.name);
+      $('.description-address').text(place.vicinity);
+
+      if (place.opening_hours.open_now) {
+        $('.description-is-open').addClass('ui green label');
+        $('.description-is-open').text('Open');
+      }
+      else {
+        $('.description-is-open').addClass('ui red label');
+        $('.description-is-open').text('Closed');
+      }
+
+      $('.description-rating').attr('data-rating', Math.floor(place.rating));
+
+      // infowindow.setContent(place.name);
+      // infowindow.open(map, this);
     });
   }
 </script>
 <div id="map" class="ui embed"></div>
-
+<div class="ui tiny modal">
+  <i class="close icon"></i>
+  <div class="modal-title header"></div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img id="modal-image" src="">
+    </div>
+    <div class="description">
+      <div class="modal-subtitle ui header"></div>
+      <div class="ui list">
+        <div class="item">
+          <i class="marker icon"></i>
+          <div class="description-address content"></div>
+        </div>
+        <div class="item">
+          <div class="content"><a class="description-is-open" href=""></a></div>
+        </div>
+        <div class="item">
+          <div class="content">
+            <div class="description-rating ui star rating" data-max-rating="5" data-rating=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&libraries=places&callback=initMap" async defer></script>
 
 {{> place }}

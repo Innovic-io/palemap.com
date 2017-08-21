@@ -12,7 +12,11 @@
           url: '/search?location={{city.location}}&radius={{city.radius}}&type={query}'
         },
         source: content,
-        searchFields   : ['title']
+        searchFields   : ['title'],
+        onSelect: function (result, response) {
+          console.log(result);
+          console.log(response);
+        }
       });
   });
 </script>
