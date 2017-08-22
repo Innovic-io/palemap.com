@@ -15,35 +15,30 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search', (req, res) => {
-  if (cacheService.fileExists(req.query.type)) {
-    const places = cacheService.getPlaces(req.query.type)
-    const location = req.query.location.split(',')
-
-    return indexHelperService.render('index', {
-      placeType: req.query.type,
-      latLocation: location[0],
-      lngLocation: location[1],
-      places: places
-    }, res)
-  }
-
-  const path = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`
-  const url = queryBuilder.create(path, req.query, config.key)
-
-  googleService.getPlaces(url)
+  cacheService.fileExists(req.query.type)
     .then((data) => {
-      cacheService.createFile(req.query.type, data.results)
-
-      const location = req.query.location.split(',')
-
+      return cacheService.getFileContent(req.query.type)
+    })
+    .then((data) => {
       return indexHelperService.render('index', {
-        placeType: req.query.type,
-        latLocation: location[0],
-        lngLocation: location[1]
+        placesData: data
       }, res)
     })
     .catch((error) => {
-      return res.status(400).json(error)
+      const path = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`
+      const url = queryBuilder.create(path, req.query, config.key)
+
+      googleService.getPlaces(url)
+        .then((data) => {
+          cacheService.createFile(req.query.type, data.results)
+
+          return indexHelperService.render('index', {
+            placesData: data.results
+          }, res)
+        })
+        .catch((error) => {
+          return res.status(400).json(error)
+        })
     })
 })
 

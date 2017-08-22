@@ -5,7 +5,68 @@
   }
 </style>
 <script>
-  var map;
+  const placeData = [
+    {{#each placesData}}
+      {{{json this}}},
+    {{/each}}
+  ];
+
+  function initMap() {
+    const cityLatLng = {lat: 43.8118946, lng: 18.5711013};
+
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: cityLatLng
+    });
+
+    var image = {
+      url: placeData[0].icon,
+      scaledSize: new google.maps.Size(32, 32),
+    };
+
+    for (var i = 0; i < placeData.length; i++) {
+      var marker = new google.maps.Marker({
+        position: {
+          lat: placeData[i].geometry.location.lat,
+          lng: placeData[i].geometry.location.lng,
+        },
+        map: map,
+        icon: image,
+        animation: google.maps.Animation.DROP
+      });
+
+      var infowindow = new google.maps.InfoWindow({
+        name: placeData[i].name,
+        image: placeData[i].icon,
+        address: placeData[i].vicinity,
+        is_open: placeData[i].opening_hours.open_now,
+        rating: Math.round(placeData[i].rating).toString()
+      });
+
+      marker.infowindow = infowindow;
+
+      marker.addListener('click', function() {
+        // this.infowindow.open(map, this);
+        $('.ui.tiny.modal').modal('show');
+        $('.modal-title').text(`More details about ${this.infowindow.name}`);
+        $('#modal-image').attr('src', this.infowindow.image);
+        $('.modal-subtitle').text(this.infowindow.name);
+        $('.description-address').text(this.infowindow.address);
+
+        if (this.infowindow.is_open) {
+          $('.description-is-open').addClass('ui green label');
+          $('.description-is-open').text('Open');
+        }
+        else {
+          $('.description-is-open').addClass('ui red label');
+          $('.description-is-open').text('Closed');
+        }
+
+        $('.description-rating').attr('data-rating', this.infowindow.rating);
+      });
+    }
+  }
+  /*var map;
   var infowindow;
 
   function initMap() {
@@ -57,11 +118,8 @@
       }
 
       $('.description-rating').attr('data-rating', Math.floor(place.rating));
-
-      // infowindow.setContent(place.name);
-      // infowindow.open(map, this);
     });
-  }
+  }*/
 </script>
 <div id="map" class="ui embed"></div>
 <div class="ui tiny modal">

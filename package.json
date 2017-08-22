@@ -23,7 +23,9 @@
     "object-hash": "^1.1.8",
     "jsonfile": "^3.0.1",
     "dotenv": "^4.0.0",
-    "hbs": "^4.0.1"
+    "hbs": "^4.0.1",
+    "hbs-json": "^0.1.1",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "eslint": "^4.3.0",

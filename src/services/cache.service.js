@@ -1,19 +1,45 @@
 const objectHash = require('object-hash')
 const fs = require('fs')
+const mkdirp = require('mkdirp')
 const jsonfile = require('jsonfile')
 
 const hashes = new Map()
 
 jsonfile.spaces = 2
 
+exports.cacheFolderExists = function (folder) {
+  return new Promise((resolve, reject) => {
+    fs.stat(folder, (err, stat) => {
+      if (err) return reject('Cache folder created.')
+
+      return resolve(stat)
+    })
+  })
+}
+
+exports.createCacheFolder = function (folder) {
+  return new Promise((resolve, reject) => {
+    mkdirp(folder, (err) => {
+      if (err) return reject(err)
+    })
+  })
+}
+
 /**
  * 
  *
  * @param fileName
- * @returns {*}
+ * @returns Promise
  */
 exports.fileExists = function (fileName) {
-  return fs.existsSync(`caches/places/${fileName}.json`)
+  return new Promise((resolve, reject) => {
+    fs.stat(`caches/places/${fileName}.json`, (err, stat) => {
+
+      if (err) return reject(err)
+
+      return resolve(stat)
+    })
+  })
 }
 
 /**
@@ -33,10 +59,16 @@ exports.createFile = function (fileName, content) {
  *
  *
  * @param placeType
- * @returns {*}
+ * @returns Promise<JSON>
  */
-exports.getPlaces = function (placeType) {
-  return jsonfile.readFileSync(`caches/places/${placeType}.json`)
+exports.getFileContent = function (placeType) {
+  return new Promise((resolve, reject) => {
+    jsonfile.readFile(`caches/places/${placeType}.json`, (err, data) => {
+      if (err) return reject(err)
+
+      return resolve(data)
+    })
+  })
 }
 
 /**
