@@ -9,7 +9,8 @@ const config = require('../config/app.config')
 exports.render = function (route, reqObject, res) {
   const siteDetails = {
     title: 'Pale Map',
-    city: config.city
+    city: config.city,
+    key: config.key
   }
 
   res.render(route, Object.assign(siteDetails, reqObject))

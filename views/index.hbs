@@ -11,6 +11,12 @@
     {{/each}}
   ];
 
+  const placeTypesData = {
+    {{#each city.categories}}
+      {{@key}}: '{{this}}',
+    {{/each}}
+  };
+
   function initMap() {
     const cityLatLng = {lat: 43.8118946, lng: 18.5711013};
 
@@ -35,12 +41,15 @@
         animation: google.maps.Animation.DROP
       });
 
+      var photoReference = `https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&maxwidth=300&maxheight=300`;
+
       var infowindow = new google.maps.InfoWindow({
         name: placeData[i].name,
-        image: placeData[i].icon,
+        image: (placeData[i].photos) ? `${photoReference}&photoreference=${placeData[i].photos[0].photo_reference}` : placeData[i].icon,
         address: placeData[i].vicinity,
-        is_open: placeData[i].opening_hours.open_now,
-        rating: Math.round(placeData[i].rating).toString()
+        is_open: (placeData[i].hasOwnProperty('opening_hours')) ? placeData[i].opening_hours.open_now : true,
+        rating: Math.round(placeData[i].rating),
+        types: placeData[i].types
       });
 
       marker.infowindow = infowindow;
@@ -48,78 +57,30 @@
       marker.addListener('click', function() {
         // this.infowindow.open(map, this);
         $('.ui.tiny.modal').modal('show');
-        $('.modal-title').text(`More details about ${this.infowindow.name}`);
+        $('.modal-title').text(`Više detalja o mjestu ${this.infowindow.name}`);
         $('#modal-image').attr('src', this.infowindow.image);
         $('.modal-subtitle').text(this.infowindow.name);
         $('.description-address').text(this.infowindow.address);
 
         if (this.infowindow.is_open) {
           $('.description-is-open').addClass('ui green label');
-          $('.description-is-open').text('Open');
+          $('.description-is-open').text('Otvoreno');
         }
         else {
           $('.description-is-open').addClass('ui red label');
-          $('.description-is-open').text('Closed');
+          $('.description-is-open').text('Zatvoreno');
         }
 
         $('.description-rating').attr('data-rating', this.infowindow.rating);
+
+;       $.each(this.infowindow.types , function(index, value) {
+          if (placeTypesData[value]) {
+            $('.description-types').append(`<a class="ui blue label">${placeTypesData[value]}</a>`);
+          }
+        });
       });
     }
   }
-  /*var map;
-  var infowindow;
-
-  function initMap() {
-    var pyrmont = {lat: {{latLocation}}, lng: {{lngLocation}} };
-
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: pyrmont,
-      zoom: 15
-    });
-
-    infowindow = new google.maps.InfoWindow();
-    var service = new google.maps.places.PlacesService(map);
-    service.nearbySearch({
-      location: pyrmont,
-      radius: {{city.radius}},
-      type: ['{{placeType}}']
-    }, callback);
-  }
-
-  function callback(places, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < places.length; i++) {
-        createMarker(places[i]);
-      }
-    }
-  }
-
-  function createMarker(place) {
-    var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
-      map: map,
-      position: place.geometry.location
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-      $('.ui.tiny.modal').modal('show');
-      $('.modal-title').text(`More details about ${place.name}`);
-      $('#modal-image').attr('src', place.icon);
-      $('.modal-subtitle').text(place.name);
-      $('.description-address').text(place.vicinity);
-
-      if (place.opening_hours.open_now) {
-        $('.description-is-open').addClass('ui green label');
-        $('.description-is-open').text('Open');
-      }
-      else {
-        $('.description-is-open').addClass('ui red label');
-        $('.description-is-open').text('Closed');
-      }
-
-      $('.description-rating').attr('data-rating', Math.floor(place.rating));
-    });
-  }*/
 </script>
 <div id="map" class="ui embed"></div>
 <div class="ui tiny modal">
@@ -137,11 +98,16 @@
           <div class="description-address content"></div>
         </div>
         <div class="item">
-          <div class="content"><a class="description-is-open" href=""></a></div>
+          <div class="content"><a class="description-is-open"></a></div>
         </div>
         <div class="item">
           <div class="content">
-            <div class="description-rating ui star rating" data-max-rating="5" data-rating=""></div>
+            <div class="description-rating ui star rating" data-max-rating="5"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="description-types content">
+
           </div>
         </div>
       </div>
@@ -149,5 +115,3 @@
   </div>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&libraries=places&callback=initMap" async defer></script>
-
-{{> place }}

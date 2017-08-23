@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  $('.ui.dropdown').dropdown();
+  $('.ui.dropdown').dropdown()
 
-  $('.ui.rating').rating('disable');
+  $('.ui.embed').embed()
 
-  $('.ui.embed').embed();
+  $('.ui.rating').rating('disable')
 })

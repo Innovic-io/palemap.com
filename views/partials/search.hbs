@@ -27,10 +27,10 @@
     <br>
     <div class="ui fluid search selection dropdown">
       <i class="dropdown icon"></i>
-      <span class="default text">Select place type:</span>
+      <span class="default text">Izaberite mjesto:</span>
       <div class="menu">
         {{#each city.categories}}
-          <a class="item" href="search?location={{../city.location}}&radius={{../city.radius}}&type={{this}}">{{this}}</a>
+          <a class="item" href="search?location={{../city.location}}&radius={{../city.radius}}&type={{@key}}">{{this}}</a>
         {{/each}}
       </div>
     </div>
@@ -41,6 +41,6 @@
     <a href="//innovic.io" class="item">From Innovic d.o.o. with <i class="ui red heart icon"></i></a>
   </div>
   <div class="right menu">
-    <a href="assets/uslovi-koriscenja.pdf" class="item">Uslovi korisćenja</a>
+    <a href="/terms_of_service" class="item">Uslovi korisćenja</a>
   </div>
 </div>

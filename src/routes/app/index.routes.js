@@ -14,6 +14,10 @@ router.get('/', (req, res) => {
   }, res)
 })
 
+router.get('/terms_of_service', (req, res) => {
+  return res.render('partials/terms-of-service', {});
+})
+
 router.get('/search', (req, res) => {
   cacheService.fileExists(req.query.type)
     .then((data) => {
