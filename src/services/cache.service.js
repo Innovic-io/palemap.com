@@ -10,9 +10,9 @@ jsonfile.spaces = 2
 exports.cacheFolderExists = function (folder) {
   return new Promise((resolve, reject) => {
     fs.stat(folder, (err, stat) => {
-      if (err) return reject('Cache folder created.')
-
-      return resolve(stat)
+      if (err) {
+        return reject(new Error(err))
+      }
     })
   })
 }
@@ -21,12 +21,16 @@ exports.createCacheFolder = function (folder) {
   return new Promise((resolve, reject) => {
     mkdirp(folder, (err) => {
       if (err) return reject(err)
+
+      console.log('Cache folder created.')
+
+      return resolve()
     })
   })
 }
 
 /**
- * 
+ *
  *
  * @param fileName
  * @returns Promise
@@ -34,7 +38,6 @@ exports.createCacheFolder = function (folder) {
 exports.fileExists = function (fileName) {
   return new Promise((resolve, reject) => {
     fs.stat(`caches/places/${fileName}.json`, (err, stat) => {
-
       if (err) return reject(err)
 
       return resolve(stat)
@@ -50,8 +53,11 @@ exports.fileExists = function (fileName) {
  * @returns {*}
  */
 exports.createFile = function (fileName, content) {
-  return jsonfile.writeFile(`caches/places/${fileName}.json`, content, function (err) {
-    console.log(`All places like ${fileName} saved.`)
+  jsonfile.writeFile(`caches/places/${fileName}.json`, content, function (err) {
+    if (err) {
+      return err
+    }
+    return console.log(`All places like ${fileName} saved.`)
   })
 }
 

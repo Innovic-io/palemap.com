@@ -3,5 +3,5 @@ $(document).ready(function () {
 
   $('.ui.embed').embed()
 
-  $('.ui.rating').rating('disable')
+  $('.ui.star.rating').rating('disable')
 })

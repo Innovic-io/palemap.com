@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 const router = require('express').Router()
 
 const config = require('../../config/app.config')
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/terms_of_service', (req, res) => {
-  return res.render('partials/terms-of-service', {});
+  return indexHelperService.render('partials/terms-of-service', {}, res)
 })
 
 router.get('/search', (req, res) => {

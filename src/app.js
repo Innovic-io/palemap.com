@@ -32,7 +32,6 @@ app.use('/assets', express.static('./public'))
 
 cacheService.cacheFolderExists('./caches/places')
   .catch((data) => {
-    console.log(data)
     return cacheService.createCacheFolder('./caches/places')
   })
 

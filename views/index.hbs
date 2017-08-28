@@ -22,7 +22,21 @@
 
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 15,
-      center: cityLatLng
+      center: cityLatLng,
+      //gestureHandling: 'none',
+      //zoomControl: false
+    });
+
+    let run = false;
+
+    map.addListener('idle', function() {
+      if (!run) {
+        window.setTimeout(function() {
+          initializeMarkers();
+        }, 1000);
+
+        run = true;
+      }
     });
 
     var image = {
@@ -30,59 +44,74 @@
       scaledSize: new google.maps.Size(32, 32),
     };
 
-    for (var i = 0; i < placeData.length; i++) {
-      var marker = new google.maps.Marker({
-        position: {
-          lat: placeData[i].geometry.location.lat,
-          lng: placeData[i].geometry.location.lng,
-        },
-        map: map,
-        icon: image,
-        animation: google.maps.Animation.DROP
-      });
+    function addMarkerWithTimeout(position, timeout) {
+      window.setTimeout(function () {
 
-      var photoReference = `https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&maxwidth=300&maxheight=300`;
-
-      var infowindow = new google.maps.InfoWindow({
-        name: placeData[i].name,
-        image: (placeData[i].photos) ? `${photoReference}&photoreference=${placeData[i].photos[0].photo_reference}` : placeData[i].icon,
-        address: placeData[i].vicinity,
-        is_open: (placeData[i].hasOwnProperty('opening_hours')) ? placeData[i].opening_hours.open_now : true,
-        rating: Math.round(placeData[i].rating),
-        types: placeData[i].types
-      });
-
-      marker.infowindow = infowindow;
-
-      marker.addListener('click', function() {
-        // this.infowindow.open(map, this);
-        $('.ui.tiny.modal').modal('show');
-        $('.modal-title').text(`Više detalja o mjestu ${this.infowindow.name}`);
-        $('#modal-image').attr('src', this.infowindow.image);
-        $('.modal-subtitle').text(this.infowindow.name);
-        $('.description-address').text(this.infowindow.address);
-
-        if (this.infowindow.is_open) {
-          $('.description-is-open').addClass('ui green label');
-          $('.description-is-open').text('Otvoreno');
-        }
-        else {
-          $('.description-is-open').addClass('ui red label');
-          $('.description-is-open').text('Zatvoreno');
-        }
-
-        $('.description-rating').attr('data-rating', this.infowindow.rating);
-
-;       $.each(this.infowindow.types , function(index, value) {
-          if (placeTypesData[value]) {
-            $('.description-types').append(`<a class="ui blue label">${placeTypesData[value]}</a>`);
-          }
+        var marker = new google.maps.Marker({
+          position: {
+            lat: position.geometry.location.lat,
+            lng: position.geometry.location.lng,
+          },
+          map: map,
+          icon: image,
+          animation: google.maps.Animation.DROP
         });
-      });
+
+        var photoReference = `https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&maxwidth=300&maxheight=300`;
+
+        var infowindow = new google.maps.InfoWindow({
+          name: position.name,
+          image: (position.photos) ? `${photoReference}&photoreference=${position.photos[0].photo_reference}` : position.icon,
+          address: position.vicinity,
+          is_open: (position.hasOwnProperty('opening_hours')) ? position.opening_hours.open_now : null,
+          rating: Math.round(position.rating)
+        });
+
+        marker.infowindow = infowindow;
+
+        var temp = [];
+
+        marker.addListener('click', function() {
+          $('.ui.tiny.modal').modal('show');
+          $('.modal-title').text(`Više detalja o mjestu ${this.infowindow.name}`);
+          $('#modal-image').attr('src', this.infowindow.image);
+          $('.modal-subtitle').text(this.infowindow.name);
+          $('.description-address').text(this.infowindow.address);
+
+
+
+          if (this.infowindow.is_open) {
+            $('.description-is-open').removeClass('red');
+            $('.description-is-open').addClass('green');
+            $('.description-is-open').text('Otvoreno');
+          }
+          else {
+            $('.description-is-open').removeClass('green');
+            $('.description-is-open').addClass('red');
+            $('.description-is-open').text('Zatvoreno');
+          }
+
+          $('.ui.star.rating')
+            .rating({
+              initialRating: this.infowindow.rating,
+              maxRating: 5,
+              interactive: false
+            })
+          ;
+
+        });
+
+      }, timeout);
+    }
+
+    function initializeMarkers() {
+      for (let i = 0; i < placeData.length; i++) {
+        addMarkerWithTimeout(placeData[i], i * 200);
+      }
     }
   }
 </script>
-<div id="map" class="ui embed"></div>
+<div id="map"></div>
 <div class="ui tiny modal">
   <i class="close icon"></i>
   <div class="modal-title header"></div>
@@ -98,20 +127,13 @@
           <div class="description-address content"></div>
         </div>
         <div class="item">
-          <div class="content"><a class="description-is-open"></a></div>
+          <div class="content"><a class="description-is-open ui label"></a></div>
         </div>
         <div class="item">
-          <div class="content">
-            <div class="description-rating ui star rating" data-max-rating="5"></div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="description-types content">
-
-          </div>
+          <div class="ui star rating" data-max-rating="5"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&callback=initMap" async defer></script>
