@@ -1,9 +1,9 @@
 {
-  "name": "API",
-  "description": "Jahorina - Pale ski hike.",
+  "name": "PaleMap",
+  "description": "Simpe app for preview any place in Pale.",
   "version": "0.0.1",
   "repository": {
-    "url": "https://github.com/Innovic-io/jahorina-ski-hike"
+    "url": "https://github.com/Innovic-io/palemap"
   },
   "license": "Apache-2.0",
   "scripts": {
