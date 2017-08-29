@@ -23,8 +23,6 @@
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 15,
       center: cityLatLng,
-      //gestureHandling: 'none',
-      //zoomControl: false
     });
 
     let run = false;
@@ -60,7 +58,7 @@
         var photoReference = `https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8&maxwidth=300&maxheight=300`;
 
         var infowindow = new google.maps.InfoWindow({
-          name: position.name,
+          name: position.name.replace(/&(.*?);/g, ' '),
           image: (position.photos) ? `${photoReference}&photoreference=${position.photos[0].photo_reference}` : position.icon,
           address: position.vicinity,
           is_open: (position.hasOwnProperty('opening_hours')) ? position.opening_hours.open_now : null,

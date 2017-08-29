@@ -10,7 +10,6 @@ if (process.env.NODE_ENV === 'test') {
   dotenv.config({path: '.env.test'})
 }
 
-const placeRoute = require('./routes/api/place.routes')
 const indexRoute = require('./routes/app/index.routes')
 const error = require('./config/error.config')
 
@@ -34,8 +33,6 @@ cacheService.cacheFolderExists('./caches/places')
   .catch((data) => {
     return cacheService.createCacheFolder('./caches/places')
   })
-
-app.use('/api/place', placeRoute)
 
 app.use('/', indexRoute)
 
