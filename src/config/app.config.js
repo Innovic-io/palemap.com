@@ -1,5 +1,5 @@
 module.exports = {
-  key: 'AIzaSyDol6fmDmviEYTR-yIL6On7AiIcyelmsW8',
+  key: process.env.googlemap,
   numOfBackgrounds: 8,
   city: {
     name: 'Pale',
