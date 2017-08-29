@@ -19,10 +19,20 @@ router.get('/terms_of_service', (req, res) => {
   return indexHelperService.render('partials/terms-of-service', {}, res)
 })
 
-router.get('/search', (req, res) => {
-  cacheService.fileExists(req.query.type)
+router.get('/:place_type', (req, res) => {
+  if (!config.city.categories.hasOwnProperty(req.params.place_type)) {
+    return res.redirect('back');
+  }
+
+  const queries = {
+    location: config.city.location,
+    radius: config.city.radius,
+    type: req.params.place_type
+  }
+
+  cacheService.fileExists(req.params.place_type)
     .then((data) => {
-      return cacheService.getFileContent(req.query.type)
+      return cacheService.getFileContent(req.params.place_type)
     })
     .then((data) => {
       return indexHelperService.render('index', {
@@ -31,11 +41,11 @@ router.get('/search', (req, res) => {
     })
     .catch((error) => {
       const path = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`
-      const url = queryBuilder.create(path, req.query, config.key)
+      const url = queryBuilder.create(path, queries, config.key)
 
       googleService.getPlaces(url)
         .then((data) => {
-          cacheService.createFile(req.query.type, data.results)
+          cacheService.createFile(req.params.place_type, data.results)
 
           return indexHelperService.render('index', {
             placesData: data.results

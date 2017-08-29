@@ -30,7 +30,7 @@
       <span class="default text">Izaberite mjesto:</span>
       <div class="menu">
         {{#each city.categories}}
-          <a class="item" href="search?location={{../city.location}}&radius={{../city.radius}}&type={{@key}}">{{this}}</a>
+          <a class="item" href="/{{@key}}">{{this}}</a>
         {{/each}}
       </div>
     </div>

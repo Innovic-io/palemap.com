@@ -1,25 +1,3 @@
-<script>
-  $(document).ready(function () {
-    var content = [
-      {{#each city.categories}}
-        { title: '{{this}}' },
-      {{/each}}
-    ];
-
-    $('.ui.right.aligned.search.item')
-      .search({
-        apiSettings: {
-          url: '/search?location={{city.location}}&radius={{city.radius}}&type={query}'
-        },
-        source: content,
-        searchFields   : ['title'],
-        onSelect: function (result, response) {
-          console.log(result);
-          console.log(response);
-        }
-      });
-  });
-</script>
 <div class="ui blue inverted massive fixed menu">
   <a href="/" class="header item">
     <img class="logo" src="assets/img/logo.png">
