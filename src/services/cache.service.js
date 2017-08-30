@@ -1,12 +1,19 @@
 const objectHash = require('object-hash')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
+const rimraf = require('rimraf')
 const jsonfile = require('jsonfile')
 
 const hashes = new Map()
 
 jsonfile.spaces = 2
 
+/**
+ *
+ *
+ * @param folder
+ * @returns {Promise}
+ */
 exports.cacheFolderExists = function (folder) {
   return new Promise((resolve, reject) => {
     fs.stat(folder, (err, stat) => {
@@ -17,12 +24,36 @@ exports.cacheFolderExists = function (folder) {
   })
 }
 
+/**
+ *
+ *
+ * @param folder
+ * @returns {Promise}
+ */
 exports.createCacheFolder = function (folder) {
   return new Promise((resolve, reject) => {
     mkdirp(folder, (err) => {
       if (err) return reject(err)
 
-      console.log('Cache folder created.')
+      // console.log('Cache folder created.')
+
+      return resolve()
+    })
+  })
+}
+
+/**
+ *
+ *
+ * @param folder
+ * @returns {Promise}
+ */
+exports.clearCache = function (folder) {
+  return new Promise((resolve, reject) => {
+    rimraf(folder, (err) => {
+      if (err) return reject(new Error(err))
+
+      // console.log('Cache folder removed.')
 
       return resolve()
     })
@@ -57,7 +88,7 @@ exports.createFile = function (fileName, content) {
     if (err) {
       return err
     }
-    return console.log(`All places like ${fileName} saved.`)
+    // console.log(`All places like ${fileName} saved.`)
   })
 }
 

@@ -19,7 +19,7 @@ router.get('/terms_of_service', (req, res) => {
   return indexHelperService.render('partials/terms-of-service', {}, res)
 })
 
-router.get('/:place_type', (req, res) => {
+router.get('/search/:place_type', (req, res) => {
   if (!config.city.categories.hasOwnProperty(req.params.place_type)) {
     return res.redirect('back');
   }

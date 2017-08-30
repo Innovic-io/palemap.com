@@ -32,19 +32,42 @@ app.set('views', path.normalize(path.join(__dirname, '/../views')))
 app.use('/assets', express.static('./public'))
 
 cacheService.cacheFolderExists('./caches/places')
-  .catch((data) => {
+  .catch(() => {
     return cacheService.createCacheFolder('./caches/places')
   })
+
+let prevDate = new Date().getDate()
+
+app.use(function (req, res, next) {
+  let currentDate = new Date().getDate()
+
+  if (currentDate - prevDate >= 10) {
+    cacheService.clearCache('./caches')
+      .then(() => {
+        return cacheService.createCacheFolder('./caches/places')
+      })
+      .then(() => {
+        prevDate = currentDate
+
+        next()
+      })
+  } else {
+    next()
+  }
+})
 
 app.use('/', indexRoute)
 
 app.use(function (req, res, next) {
-  return res.status(404).json(error[404])
+  const error = new Error('404')
+
+  next(error)
 })
 
 app.use(function (err, req, res, next) {
-  console.log(err)
-  return res.status(500).json(error[500])
+  if (err) {
+    return res.status(404).json(error[err.message])
+  }
 })
 
 app.listen(process.env.PORT || 3000)

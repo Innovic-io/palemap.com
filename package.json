@@ -25,7 +25,8 @@
     "dotenv": "^4.0.0",
     "hbs": "^4.0.1",
     "hbs-json": "^0.1.1",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.1"
   },
   "devDependencies": {
     "eslint": "^4.3.0",
